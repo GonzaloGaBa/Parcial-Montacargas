@@ -139,4 +139,4 @@ En resumen, el código proporcionado implementa la lógica necesaria para simula
 ---
 
 ### Link del proyecto
-https://www.tinkercad.com/things/3XWsC0kZX4A-montacargas/editel?sharecode=yMrEIuEFSBGl2C3zcyVmdFl-PKCghifeeCBX5GOaXnI
+[https://www.tinkercad.com/things/3XWsC0kZX4A-montacargas/editel?sharecode=yMrEIuEFSBGl2C3zcyVmdFl-PKCghifeeCBX5GOaXnI](https://www.tinkercad.com/things/3XWsC0kZX4A-brave-allis/editel?sharecode=yMrEIuEFSBGl2C3zcyVmdFl-PKCghifeeCBX5GOaXnI)
