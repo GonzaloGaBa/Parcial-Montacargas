@@ -1,4 +1,4 @@
-Funcionamiento integral del código
+# Funcionamiento integral del código
 El código es un programa en lenguaje C++ que controla un montacargas simulado mediante un microcontrolador Arduino. A continuación, se explica el funcionamiento integral del código:
 
 Configuración de pines
