@@ -1,42 +1,131 @@
-# Funcionamiento integral del código
+#Funcionamiento integral del código
 El código es un programa en lenguaje C++ que controla un montacargas simulado mediante un microcontrolador Arduino. A continuación, se explica el funcionamiento integral del código:
 
-Configuración de pines
-Al comienzo del código, se definen constantes para asignar números a los pines utilizados en el sistema. Los pines se dividen en dos grupos: los pines para el visualizador de 7 segmentos y los pines para los botones y LEDs.
+##Descripcion
+El código proporcionado es un programa en C++ que simula el funcionamiento de un montacargas controlado por botones y LEDs. Utiliza un visualizador de 7 segmentos para mostrar el piso actual y LEDs para indicar el estado (en movimiento o en pausa). Los botones permiten subir, bajar y pausar el montacargas. El programa se ejecuta en una placa Arduino y utiliza el monitor serial para mostrar mensajes informativos. En resumen, es una simulación interactiva de un montacargas con control de pisos.
 
-Los pines del visualizador de 7 segmentos se definen como constantes con nombres descriptivos como PIN_A, PIN_B, PIN_C, etc. Estos pines se configurarán más adelante como salidas.
+##Configuración de pines
+---
+~~~c++
+// Configuración de los pines para el visualizador de 7 segmentos
+#define PIN_A 10
+#define PIN_B 11
+#define PIN_C 5
+#define PIN_D 6
+#define PIN_E 7
+#define PIN_F 9
+#define PIN_G 8
 
-Los pines para los botones y LEDs también se definen como constantes, como PIN_BOTON_SUBIR, PIN_BOTON_BAJAR, PIN_BOTON_PAUSAR, PIN_LED_VERDE y PIN_LED_ROJO. Estos pines se configurarán como entradas para los botones y salidas para los LEDs.
+//Configuración de los pines para los botones y LEDs
+#define PIN_BOTON_SUBIR 2
+#define PIN_BOTON_BAJAR 3
+#define PIN_BOTON_PAUSAR 4
+#define PIN_LED_VERDE 13
+#define PIN_LED_ROJO 12
+~~~
+##Variables
+~~~c++
+//Variables para el control del montacargas
+int pisoActual = 0; // El montacargas comienza en el piso 1
+int pisoAnterior = 1; // Variable para almacenar el piso anterior
+bool enMovimiento = false;
+bool enPausa = false;
+bool mostrarMensaje = false; // Variable para controlar la visualización del mensaje.
+~~~
+Aquí se declaran las variables utilizadas para controlar el montacargas. pisoActual y pisoAnterior almacenan el número de piso actual y el piso anterior, respectivamente. enMovimiento y enPausa son variables booleanas que indican si el montacargas está en movimiento o en pausa. mostrarMensaje se utiliza para controlar la visualización de un mensaje.
 
-Variables de control
-A continuación, se declaran variables para controlar el montacargas. Estas variables se utilizan para almacenar información sobre el estado actual del montacargas, como el piso actual, el piso anterior, si el montacargas está en movimiento, en pausa o si se debe mostrar un mensaje.
+##Función de configuración (setup)
+~~~c++
+void setup() {
+  // Configuración de los pines
+  pinMode(PIN_A, OUTPUT);
+  pinMode(PIN_B, OUTPUT);
+  pinMode(PIN_C, OUTPUT);
+  pinMode(PIN_D, OUTPUT);
+  pinMode(PIN_E, OUTPUT);
+  pinMode(PIN_F, OUTPUT);
+  pinMode(PIN_G, OUTPUT);
 
-Las variables relevantes son las siguientes:
+  pinMode(PIN_BOTON_SUBIR, INPUT_PULLUP);
+  pinMode(PIN_BOTON_BAJAR, INPUT_PULLUP);
+  pinMode(PIN_BOTON_PAUSAR, INPUT_PULLUP);
 
-pisoActual: almacena el piso actual del montacargas (inicialmente se establece en 1).
-pisoAnterior: almacena el piso anterior del montacargas.
-enMovimiento: indica si el montacargas está en movimiento o no.
-enPausa: indica si el montacargas está en pausa o no.
-mostrarMensaje: controla la visualización del mensaje en el monitor serial.
-Función setup()
-La función setup() se ejecuta una vez al inicio del programa y se encarga de la configuración inicial del sistema. En esta función, se realizan las siguientes tareas:
+  pinMode(PIN_LED_VERDE, OUTPUT);
+  pinMode(PIN_LED_ROJO, OUTPUT);
 
-Se configuran los pines utilizando la función pinMode() para especificar si cada pin es una entrada o salida.
-Se inicia la comunicación con el monitor serial utilizando Serial.begin() con una velocidad de transmisión de 9600 baudios.
-Se imprime un mensaje de inicialización en el monitor serial para indicar que el montacargas está listo para su uso.
-Función loop()
-La función loop() es el corazón del programa y se ejecuta repetidamente en un ciclo. En cada iteración del ciclo, se realiza lo siguiente:
+  // Inicialización del monitor serial
+  Serial.begin(9600);
+  Serial.println("El montacargas está listo para su uso.");
+  mostrarMensaje = true;
+}
+~~~
+En la función setup(), se configuran los pines utilizados en el sistema. Los pines del visualizador de 7 segmentos se configuran como salidas, mientras que los pines de los botones y los LEDs se configuran como entradas (con resistencias de pull-up internas habilitadas mediante INPUT_PULLUP).
 
-Se llama a la función actualizarDisplay() para actualizar el visualizador de 7 segmentos con el piso actual.
-Se leen los estados de los botones utilizando la función digitalRead() y se almacenan en variables booleanas.
-Se comprueba si los botones de subir, bajar o pausar han sido presionados y se realiza la acción correspondiente según el estado del montacargas y los límites de los pisos.
-Se detiene el montacargas si ha llegado al piso deseado (en este caso, el piso 10).
-Se muestra el piso actual en el monitor serial solo si ha cambiado y se reinicia la variable mostrarMensaje para evitar repeticiones.
-Función actualizarDisplay()
-La función actualizarDisplay() se encarga de actualizar el visualizador de 7 segmentos con el piso actual. Utiliza una estructura de control switch para determinar qué segmentos del visualizador deben encenderse o apagarse según el número del piso actual.
+También se inicializa el monitor serial para permitir la comunicación con una computadora. Se establece una velocidad de transmisión de 9600 baudios. Luego, se imprime un mensaje por el monitor serial para indicar que el montacargas está listo para su uso, y se establece la variable mostrarMensaje en true para que se muestre el mensaje.
 
-Funciones auxiliares: iniciarMovimiento(), pausarMovimiento() y detenerMontacargas()
-Estas funciones auxiliares se utilizan para iniciar el movimiento del montacargas, pausar el movimiento y detener el montacargas, respectivamente. Cambian los valores de las variables de control según sea necesario y también controlan el encendido o apagado de los LEDs correspondientes.
+##Función principal (loop)
+~~~c++
+void loop() {
+  // Actualizar el display de 7 segmentos
+  actualizarDisplay();
 
-Conclusión
-El código proporcionado implementa el control de un montacargas simulado utilizando un microcontrolador Arduino. Utiliza un visualizador de 7 segmentos para mostrar el piso actual y se controla mediante botones para subir, bajar y pausar el movimiento. El estado del montacargas se refleja a través de LEDs y se muestra información relevante en el monitor serial.
+  // Comprobar el estado de los botones
+  bool botonSubirPresionado = digitalRead(PIN_BOTON_SUBIR) == LOW;
+  bool botonBajarPresionado = digitalRead(PIN_BOTON_BAJAR) == LOW;
+  bool botonPausarPresionado = digitalRead(PIN_BOTON_PAUSAR) == LOW;
+
+  if (botonSubirPresionado) 
+  {
+    if (pisoActual < 10) {
+      pisoActual++;
+      iniciarMovimiento();
+    }
+  }
+
+  if (botonBajarPresionado) 
+  {
+    if (pisoActual > 0) {
+      pisoActual--;
+      iniciarMovimiento();
+    }
+  }
+
+  if (botonPausarPresionado ) {
+    pausarMovimiento();
+  }
+
+  // Detener el montacargas si ha llegado al piso deseado (piso 10 en este caso)
+  if (pisoActual == 10) {
+    detenerMontacargas();
+  }
+  // Mostrar el piso actual por el monitor serial solo si ha cambiado
+  if (pisoActual != pisoAnterior && mostrarMensaje) {
+    Serial.print("Piso actual: ");
+    Serial.println(pisoActual);
+    pisoAnterior = pisoActual;
+    mostrarMensaje = false; // Reiniciar la variable para evitar repeticiones
+  }
+}
+~~~
+En la función loop(), se realiza el funcionamiento principal del montacargas. En primer lugar, se llama a la función actualizarDisplay() para mostrar el número del piso actual en el visualizador de 7 segmentos.
+
+Luego, se comprueba el estado de los botones. Si el botón "Subir" es presionado y el piso actual es menor a 10, se incrementa el número del piso actual y se llama a la función iniciarMovimiento() para iniciar el movimiento del montacargas. Si el botón "Bajar" es presionado y el piso actual es mayor a 0, se decrementa el número del piso actual y se llama a la función iniciarMovimiento().
+
+Si el botón "Pausar" es presionado, se llama a la función pausarMovimiento() para pausar o reanudar el movimiento del montacargas.
+
+A continuación, se verifica si el montacargas ha llegado al piso deseado (piso 10 en este caso) y se llama a la función detenerMontacargas() para detenerlo si es necesario.
+
+Finalmente, se verifica si el número del piso actual ha cambiado y se muestra por el monitor serial si es el caso. La variable mostrarMensaje se reinicia a false para evitar repeticiones en la visualización del mensaje.
+
+## Funciones auxiliares
+El código también incluye varias funciones auxiliares que realizan tareas específicas:
+
+#actualizarDisplay(): Esta función actualiza el visualizador de 7 segmentos para mostrar el número del piso actual.
+
+#iniciarMovimiento(): Esta función se encarga de iniciar el movimiento del montacargas. Establece la variable enMovimiento en true, enciende el LED verde y apaga el LED rojo. Luego, se introduce un retardo de 3 segundos para simular el tiempo de trayecto entre pisos.
+
+#pausarMovimiento(): Esta función se utiliza para pausar o reanudar el movimiento del montacargas. Cambia el estado de la variable enPausa y controla el encendido y apagado de los LEDs rojo y verde, respectivamente.
+
+#detenerMontacargas(): Esta función detiene el montacargas. Establece la variable enMovimiento en false, apaga ambos LEDs y muestra un mensaje en el visualizador de 7 segmentos indicando que el montacargas ha llegado al piso deseado.
+
+Estas funciones contribuyen al funcionamiento integral del código, controlando el estado del montacargas, su movimiento, la visualización de información y la interacción con los botones y LEDs.
