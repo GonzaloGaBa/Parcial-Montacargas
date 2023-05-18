@@ -120,12 +120,12 @@ Finalmente, se verifica si el número del piso actual ha cambiado y se muestra p
 ## Funciones auxiliares
 El código también incluye varias funciones auxiliares que realizan tareas específicas:
 
-# actualizarDisplay(): Esta función actualiza el visualizador de 7 segmentos para mostrar el número del piso actual.
+## actualizarDisplay(): Esta función actualiza el visualizador de 7 segmentos para mostrar el número del piso actual.
 
-# iniciarMovimiento(): Esta función se encarga de iniciar el movimiento del montacargas. Establece la variable enMovimiento en true, enciende el LED verde y apaga el LED rojo. Luego, se introduce un retardo de 3 segundos para simular el tiempo de trayecto entre pisos.
+## iniciarMovimiento(): Esta función se encarga de iniciar el movimiento del montacargas. Establece la variable enMovimiento en true, enciende el LED verde y apaga el LED rojo. Luego, se introduce un retardo de 3 segundos para simular el tiempo de trayecto entre pisos.
 
-# pausarMovimiento(): Esta función se utiliza para pausar o reanudar el movimiento del montacargas. Cambia el estado de la variable enPausa y controla el encendido y apagado de los LEDs rojo y verde, respectivamente.
+## pausarMovimiento(): Esta función se utiliza para pausar o reanudar el movimiento del montacargas. Cambia el estado de la variable enPausa y controla el encendido y apagado de los LEDs rojo y verde, respectivamente.
 
-# detenerMontacargas(): Esta función detiene el montacargas. Establece la variable enMovimiento en false, apaga ambos LEDs y muestra un mensaje en el visualizador de 7 segmentos indicando que el montacargas ha llegado al piso deseado.
+## detenerMontacargas(): Esta función detiene el montacargas. Establece la variable enMovimiento en false, apaga ambos LEDs y muestra un mensaje en el visualizador de 7 segmentos indicando que el montacargas ha llegado al piso deseado.
 
 Estas funciones contribuyen al funcionamiento integral del código, controlando el estado del montacargas, su movimiento, la visualización de información y la interacción con los botones y LEDs.
