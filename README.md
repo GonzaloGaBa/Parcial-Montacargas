@@ -1,10 +1,10 @@
-#Funcionamiento integral del código
+# Funcionamiento integral del código
 El código es un programa en lenguaje C++ que controla un montacargas simulado mediante un microcontrolador Arduino. A continuación, se explica el funcionamiento integral del código:
 
-##Descripcion
+## Descripcion
 El código proporcionado es un programa en C++ que simula el funcionamiento de un montacargas controlado por botones y LEDs. Utiliza un visualizador de 7 segmentos para mostrar el piso actual y LEDs para indicar el estado (en movimiento o en pausa). Los botones permiten subir, bajar y pausar el montacargas. El programa se ejecuta en una placa Arduino y utiliza el monitor serial para mostrar mensajes informativos. En resumen, es una simulación interactiva de un montacargas con control de pisos.
 
-##Configuración de pines
+## Configuración de pines
 ---
 ~~~c++
 // Configuración de los pines para el visualizador de 7 segmentos
@@ -23,7 +23,7 @@ El código proporcionado es un programa en C++ que simula el funcionamiento de u
 #define PIN_LED_VERDE 13
 #define PIN_LED_ROJO 12
 ~~~
-##Variables
+## Variables
 ~~~c++
 //Variables para el control del montacargas
 int pisoActual = 0; // El montacargas comienza en el piso 1
@@ -34,7 +34,7 @@ bool mostrarMensaje = false; // Variable para controlar la visualización del me
 ~~~
 Aquí se declaran las variables utilizadas para controlar el montacargas. pisoActual y pisoAnterior almacenan el número de piso actual y el piso anterior, respectivamente. enMovimiento y enPausa son variables booleanas que indican si el montacargas está en movimiento o en pausa. mostrarMensaje se utiliza para controlar la visualización de un mensaje.
 
-##Función de configuración (setup)
+## Función de configuración (setup)
 ~~~c++
 void setup() {
   // Configuración de los pines
@@ -63,7 +63,7 @@ En la función setup(), se configuran los pines utilizados en el sistema. Los pi
 
 También se inicializa el monitor serial para permitir la comunicación con una computadora. Se establece una velocidad de transmisión de 9600 baudios. Luego, se imprime un mensaje por el monitor serial para indicar que el montacargas está listo para su uso, y se establece la variable mostrarMensaje en true para que se muestre el mensaje.
 
-##Función principal (loop)
+## Función principal (loop)
 ~~~c++
 void loop() {
   // Actualizar el display de 7 segmentos
@@ -120,12 +120,12 @@ Finalmente, se verifica si el número del piso actual ha cambiado y se muestra p
 ## Funciones auxiliares
 El código también incluye varias funciones auxiliares que realizan tareas específicas:
 
-#actualizarDisplay(): Esta función actualiza el visualizador de 7 segmentos para mostrar el número del piso actual.
+# actualizarDisplay(): Esta función actualiza el visualizador de 7 segmentos para mostrar el número del piso actual.
 
-#iniciarMovimiento(): Esta función se encarga de iniciar el movimiento del montacargas. Establece la variable enMovimiento en true, enciende el LED verde y apaga el LED rojo. Luego, se introduce un retardo de 3 segundos para simular el tiempo de trayecto entre pisos.
+# iniciarMovimiento(): Esta función se encarga de iniciar el movimiento del montacargas. Establece la variable enMovimiento en true, enciende el LED verde y apaga el LED rojo. Luego, se introduce un retardo de 3 segundos para simular el tiempo de trayecto entre pisos.
 
-#pausarMovimiento(): Esta función se utiliza para pausar o reanudar el movimiento del montacargas. Cambia el estado de la variable enPausa y controla el encendido y apagado de los LEDs rojo y verde, respectivamente.
+# pausarMovimiento(): Esta función se utiliza para pausar o reanudar el movimiento del montacargas. Cambia el estado de la variable enPausa y controla el encendido y apagado de los LEDs rojo y verde, respectivamente.
 
-#detenerMontacargas(): Esta función detiene el montacargas. Establece la variable enMovimiento en false, apaga ambos LEDs y muestra un mensaje en el visualizador de 7 segmentos indicando que el montacargas ha llegado al piso deseado.
+# detenerMontacargas(): Esta función detiene el montacargas. Establece la variable enMovimiento en false, apaga ambos LEDs y muestra un mensaje en el visualizador de 7 segmentos indicando que el montacargas ha llegado al piso deseado.
 
 Estas funciones contribuyen al funcionamiento integral del código, controlando el estado del montacargas, su movimiento, la visualización de información y la interacción con los botones y LEDs.
